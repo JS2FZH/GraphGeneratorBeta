@@ -1,0 +1,361 @@
+<!doctype html>
+
+<html lang="ja">
+    <head>
+        <!-- Recommended meta tags -->
+        <meta charset="UTF-8">
+        <meta name="viewport" content="width=device-width,initial-scale=1.0">
+
+        <!-- PyScript CSS -->
+        <link rel="stylesheet" href="https://pyscript.net/releases/2024.1.1/core.css">
+
+        <!-- This script tag bootstraps PyScript -->
+        <script type="module" src="https://pyscript.net/releases/2024.1.1/core.js"></script>
+
+        <!-- for splashscreen -->
+        <style>
+            #loading { outline: none; border: none; background: transparent }
+        </style>
+        <script type="module">
+            const loading = document.getElementById('loading');
+            addEventListener('py:ready', () => loading.close());
+            loading.showModal();
+        </script>
+
+        <!--CSS-->
+        <link href="style.css" rel="stylesheet" />
+
+        <title>GraphGeneratorBeta</title>
+    </head>
+
+    <body>
+        <dialog id="loading">
+            <h1>Loading...</h1>
+        </dialog>
+
+        <section class="pyscript">
+            <div>
+                <h1 class="title">GraphGeneratorBeta</h1>
+            </div>
+            <div class="link">
+                <a href="https://note.com/js2fzh/n/ndb069deee555?sub_rt=share_pw" target="_blank">使い方はこちら！！</a>
+            </div>
+            <div>
+
+                <div>
+
+                    <div class="box">
+                        <h2>グラフの軸の設定</h2>
+                        <div class="field">
+                            <div class="labelField">
+                                <h3 style="text-align: center;">横軸</h3>
+                                <a>左端</a>
+                                <input id="xmin" type="text" value="0" class="num"/>
+                                <br/>
+                                <a>右端</a>
+                                <input id="xmax" type="text" value="100" class="num"/>
+                                <br/>
+                                <a>軸ラベル</a>
+                                <input id="xlabel" type="text" value=""/>
+                                <br/>
+                                <a>フォントサイズ</a>
+                                <input id="xlabelsize" type="text" value="10" class="num"/>
+                            </div>
+                            <div class="labelField">
+                                <h3 style="text-align: center;">縦軸</h3>
+                                <a>下端</a>
+                                <input id="ymin" type="text" value="0" class="num"/>
+                                <br/>
+                                <a>上端</a>
+                                <input id="ymax" type="text" value="100" class="num"/>
+                                <br/>
+                                <a>軸ラベル</a>
+                                <input id="ylabel" type="text" value=""/>
+                                <br/>
+                                <a>フォントサイズ</a>
+                                <input id="ylabelsize" type="text" value="10" class="num"/>
+                            </div>
+                        </div>
+
+                    </div>
+
+                    <div class="box">
+                        <div id="datacont">
+                            <a id="dataCurrentCount" style="display:none;">1</a>
+
+
+                            <h2>グラフの系列の設定</h2>
+                            <div class="markerframe">
+                                <h3>系列1
+                                <input type="checkbox" id="cbdata1" checked/>
+                                </h3>
+                                <div class="field">
+                                    <div class="labelField">
+                                        <a>x座標</a>
+                                        <br/>
+                                        <textarea id="datax1" rows="10" cols="7">1</textarea>
+                                    </div>
+                                    <div class="labelField">
+                                        <a>y座標</a>
+                                        <br/>
+                                        <textarea id="datay1" rows="10" cols="7">1</textarea>
+                                    </div>
+                                    <div class="labelField">
+                                        <br/>
+                                        <a>系列名(任意)</a>
+                                        <input id="label1" type="text"/>
+                                        <br/>
+                                        <a>マーカー種類</a>
+                                        <select id="marker1">
+                                            <option value="." selected>点・</option>
+                                            <option value=",">四角形□</option>
+                                            <option value="^">上向き三角形▲</option>
+                                            <option value="v">下向き三角形▼</option>
+                                            <option value="o">円</option>
+                                            <option value="<">左向き三角形</option>
+                                            <option value=">">右向き三角形</option>
+                                            <option value="1">Y字</option>
+                                            <option value="2">Y字(上下反転)</option>
+                                            <option value="3">Y字(90度時計回り)</option>
+                                            <option value="4">Y字(90度反時計回り)</option>
+                                            <option value="8">八角形</option>
+                                            <option value="s">四角形</option>
+                                            <option value="p">五角形</option>
+                                            <option value="*">星</option>
+                                            <option value="h">六角形(縦長)</option>
+                                            <option value="H">六角形(横長)</option>
+                                            <option value="+">プラス+</option>
+                                            <option value="x">バツ×</option>
+                                            <option value="D">菱形(ダイヤモンド)</option>
+                                            <option value="d">細い菱形 (ダイヤモンド)</option>
+                                            <option value="|">縦線</option>
+                                            <option value="_">横線</option>
+                                            <option value="">マーカーなし</option>
+                                        </select>
+                                        <br/>
+                                        <a>マーカーサイズ</a>
+                                        <input id="size1" type="text" value="20" class="num"/>
+                                        <br/>
+                                        <a>色</a>
+                                        <select id="color1">
+                                            <option value="k" selected>black</option>
+                                            <option value="w">white</option>
+                                            <option value="b">blue</option>
+                                            <option value="g">green</option>
+                                            <option value="r">red</option>
+                                            <option value="m">magenta</option>
+                                            <option value="y">yellow</option>
+                                            <option value="0.1">gray1(near black)</option>
+                                            <option value="0.2">gray2</option>
+                                            <option value="0.3">gray3</option>
+                                            <option value="0.4">gray4</option>
+                                            <option value="0.5">gray5</option>
+                                            <option value="0.6">gray6</option>
+                                            <option value="0.7">gray7</option>
+                                            <option value="0.8">gray8</option>
+                                            <option value="0.9">gray9(near white)</option>
+                                        </select>
+                                        <br/>
+                                        <a>枠色</a>
+                                        <select id="ec1">
+                                            <option value="k" selected>black</option>
+                                            <option value="w">white</option>
+                                            <option value="b">blue</option>
+                                            <option value="g">green</option>
+                                            <option value="r">red</option>
+                                            <option value="m">magenta</option>
+                                            <option value="y">yellow</option>
+                                            <option value="0.1">gray1(near black)</option>
+                                            <option value="0.2">gray2</option>
+                                            <option value="0.3">gray3</option>
+                                            <option value="0.4">gray4</option>
+                                            <option value="0.5">gray5</option>
+                                            <option value="0.6">gray6</option>
+                                            <option value="0.7">gray7</option>
+                                            <option value="0.8">gray8</option>
+                                            <option value="0.9">gray9(near white)</option>
+                                        </select>
+                                    </div>
+                                </div>
+                                <br/>
+                                <h4>エラーバー(不確かさバー)</h4>
+                                <div class="field">
+                                    <div class="labelField">
+                                        <a>xの誤差</a>
+                                        <input id="cbxerr1" type="checkbox" />
+                                        <br/>
+                                        <a>(両誤差or左誤差,右誤差)</a>
+                                        <br/>
+                                        <textarea id="x_err1" rows="10" cols="7"></textarea>
+                                    </div>
+                                    <div class="labelField">
+                                        <a>yの誤差</a>
+                                        <input id="cbyerr1" type="checkbox" />
+                                        <br/>
+                                        <a>(両誤差or下誤差,上誤差)</a>
+                                        <br/>
+                                        <textarea id="y_err1" rows="10" cols="7"></textarea>
+                                    </div>
+                                    <div class="labelField">
+                                        <a>エラーバー幅</a>
+                                        <input id="errlinewidth1" type="text" value="1"  class="num"/>
+                                        <br/>
+                                        <a>キャップサイズ</a>
+                                        <input id="errcapsize1" type="text" value="5"  class="num"/>
+                                        <br/>
+                                        <a>色</a>
+                                        <select id="errbarcolor1">
+                                            <option value="k" selected>black</option>
+                                            <option value="w">white</option>
+                                            <option value="b">blue</option>
+                                            <option value="g">green</option>
+                                            <option value="r">red</option>
+                                            <option value="m">magenta</option>
+                                            <option value="y">yellow</option>
+                                            <option value="0.1">gray1(near black)</option>
+                                            <option value="0.2">gray2</option>
+                                            <option value="0.3">gray3</option>
+                                            <option value="0.4">gray4</option>
+                                            <option value="0.5">gray5</option>
+                                            <option value="0.6">gray6</option>
+                                            <option value="0.7">gray7</option>
+                                            <option value="0.8">gray8</option>
+                                            <option value="0.9">gray9(near white)</option>
+                                        </select>
+                                    </div>
+                                </div>
+                            <br/>
+                            </div>
+                        </div>
+                        <div class="button">
+                            <button onclick="adddata(1)">系列追加</button>
+                        </div>
+                    </div>
+                    <br/>
+                </div>
+
+                <div class="box">
+                    <h2>グラフの凡例の設定</h2>
+                    <h3>凡例を表示する
+                    <input type="checkbox" id="cblegend"/>
+                    </h3>
+                    <a>凡例の点の大きさ</a>
+                    <input id="legendmarkerscale" type="text" value="1" class="num"/>
+                    <br/>
+                    <a>表示位置</a>
+                    <select id="legendloc">
+                        <option value="0" selected>best</option>
+                        <option value="1">upper right</option>
+                        <option value="2">upper left</option>
+                        <option value="3">lower left</option>
+                        <option value="4">lower right</option>
+                        <option value="5">right</option>
+                        <option value="6">center left</option>
+                        <option value="7">center right</option>
+                        <option value="8">lower center</option>
+                        <option value="9">upper center</option>
+                        <option value="10">center</option>
+                    </select>
+                    <br/>
+                    <a>文字の大きさ</a>
+                    <input id="legendfontsize" type="text" value="10" class="num"/>
+                    <br/>
+                </div>
+
+                <div class="box">
+                    <div id="curvecont">
+                        <a id="curveCurrentCount" style="display:none;">0</a>
+
+                        <h2>グラフ内に近似曲線を描画するときの設定</h2>
+                        <a href="https://numpy.org/doc/stable/reference/routines.math.html" target="_blank" >式記述参考</a>
+                        <br/>
+                        
+                        <br/>
+                    </div>
+                
+                    <div class="button">
+                        <button onclick="addcurve(1)">近似曲線追加</button>
+                    </div>
+                </div>
+                <br/>
+
+                <div class="box">
+                    <div id="textcont">
+                        <a id="textCurrentCount" style="display: none;">0</a>
+
+                        <h2>グラフ内にテキストを配置するときの設定</h2>
+                        
+                        <br/>
+                    </div>
+                
+                    <div class="button">
+                        <button onclick="addtext(1)">テキスト追加</button>
+                    </div>
+                </div>
+                <br/>
+
+                <div class="box">
+                    <div id="annocont">
+                        <a id="annoCurrentCount" style="display: none;">0</a>
+
+                        <h2>グラフ内に矢印を配置するときの設定</h2>
+                        
+                        <br/>
+                    </div>
+                    <div class="button">
+                        <button onclick="addanno(1)">矢印追加</button>
+                    </div>
+                </div>
+                <br/>
+
+                <div class="box">
+                    <h2>グラフを対数グラフにする際の設定</h2>
+                    <a>x対数軸</a>
+                    <input id="cbx_log" type="checkbox" />
+                    <a>底</a>
+                    <input id="xlogbase" type="text"  class="num"/>
+                    <a>(空欄だとそのまま)</a>
+                    <br/>
+                    <a>y対数軸</a>
+                    <input id="cby_log" type="checkbox" />
+                    <a>底</a>
+                    <input id="ylogbase" type="text"  class="num"/>
+                    <a>(空欄だとそのまま)</a>
+                    <br/>
+                </div>
+
+                <div class="box">
+                    <h2>グラフ詳細設定</h2>
+                    <a>dpi</a>
+                    <input type="text" id="dpi" value="150" class="num"/>
+                    <br/>
+                </div>
+                
+                <div class="button">
+                    <button id="gen" type="submit" py-click="gen">生成</button>
+                </div>
+                <br/>
+
+                
+            </div>
+
+            <div id="mpl"></div>
+
+            <div class="button">
+                <button id="downloadButton">Download</button>
+            </div>
+                
+            <footer>
+                <p>
+                    <small>&copy; 2024 JS2FZH, ka.kii</small>
+                </p>
+            </footer>
+
+            <script type="py" src="./main.py" config="./pyscript.toml"></script>
+
+            <script type="text/javascript" src="./script.js"></script>
+        </section>
+
+    </body>
+
+</html>
