@@ -148,8 +148,6 @@ def data_plot(plt, n):
         if berrx or berry:
             #エラーバー付き
             #改行からリストへ
-            xerr_data = convert_to_err(get_id("x_err" + n).value.strip().split('\n'))
-            yerr_data = convert_to_err(get_id("y_err" + n).value.strip().split('\n'))
 
             #各データ取得
             p_errlinewidth = float(get_id("errlinewidth" + n).value)
@@ -157,11 +155,15 @@ def data_plot(plt, n):
             p_errbarcolor = get_id("errbarcolor" + n).value
 
             if berrx and berry:
-                plt.errorbar(x_data, y_data, yerr = yerr_data, xerr = xerr_data, markersize=p_s, marker=p_m, c=p_c, markeredgecolor=p_ec, ls="", elinewidth=p_errlinewidth, capsize=p_errcapsize, ecolor=p_errbarcolor)
+                xerr_data = convert_to_err(get_id("x_err" + n).value.strip().split('\n'))
+                yerr_data = convert_to_err(get_id("y_err" + n).value.strip().split('\n'))
+                plt.errorbar(x_data, y_data, yerr = yerr_data, xerr = xerr_data, markersize=0, marker=p_m, c=p_c, markeredgecolor=p_ec, ls="", elinewidth=p_errlinewidth, capsize=p_errcapsize, ecolor=p_errbarcolor)
             elif berrx and (not berry):
-                plt.errorbar(x_data, y_data, xerr = xerr_data, markersize=p_s, marker=p_m, c=p_c, markeredgecolor=p_ec, ls="", elinewidth=p_errlinewidth, capsize=p_errcapsize, ecolor=p_errbarcolor)
+                xerr_data = convert_to_err(get_id("x_err" + n).value.strip().split('\n'))
+                plt.errorbar(x_data, y_data, xerr = xerr_data, markersize=0, marker=p_m, c=p_c, markeredgecolor=p_ec, ls="", elinewidth=p_errlinewidth, capsize=p_errcapsize, ecolor=p_errbarcolor)
             elif (not berrx) and berry:
-                plt.errorbar(x_data, y_data, yerr = yerr_data, markersize=p_s, marker=p_m, c=p_c, markeredgecolor=p_ec, ls="", elinewidth=p_errlinewidth, capsize=p_errcapsize, ecolor=p_errbarcolor)
+                yerr_data = convert_to_err(get_id("y_err" + n).value.strip().split('\n'))
+                plt.errorbar(x_data, y_data, yerr = yerr_data, markersize=0, marker=p_m, c=p_c, markeredgecolor=p_ec, ls="", elinewidth=p_errlinewidth, capsize=p_errcapsize, ecolor=p_errbarcolor)
 
         #プロット
         plt.scatter(x_data, y_data, s=p_s, marker=p_m, c=p_c, ec=p_ec, label=p_l)
@@ -181,7 +183,7 @@ def extract_numbers(lines):
     for line in lines:
         if line.strip():  # 空行を無視
             # 行の中のすべての数値を抽出（小数点を含む）
-            line_numbers = re.findall(r'\d+\.\d+|\d+', line)
+            line_numbers = re.findall(r'-?\d+\.\d+|-?\d+', line)
             # 数値を浮動小数点数に変換してリストに追加
             numbers.extend([float(num) for num in line_numbers])
     return numbers
