@@ -203,7 +203,7 @@ def add_curve(plt, n):
     if get_id("cbcurve" + n).checked :
         equation = get_id("equation" + n).value     #式入力
         
-        x = np.arange(float(xmin.value), float(xmax.value), 0.000001)       #x配列定義
+        x = np.linspace(float(xmin.value), float(xmax.value), 10000)       #x配列定義
 
         # 安全に評価するためにmathモジュールを含める fromChatGPT
         allowed_names = {
